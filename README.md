@@ -18,20 +18,18 @@ npm i
 npm run dev
 ```
 
+Create a .env file with the following properties:
+- BASE_PATH_FROM_PROJECT (append with /)
+- BASE_PATH (prepend AND append with /)
+- BASE_URL (don't append with /)
+
 ## Usage
 
-```python
-import foobar
+### View media
 
-# returns 'words'
-foobar.pluralize('word')
+View media based on a specified pathname
 
-# returns 'geese'
-foobar.pluralize('goose')
-
-# returns 'phenomenon'
-foobar.singularize('phenomena')
-```
+`GET {BASE_URL}/path/to/file` or `GET {BASE_URL}/media/path/to/file`
 
 ## Contributing
 
