@@ -19,9 +19,9 @@ npm run dev
 ```
 
 Create a .env file with the following properties:
-- BASE_PATH_FROM_PROJECT (append with /)
-- BASE_PATH (prepend AND append with /)
-- BASE_URL (don't append with /)
+- BASE_PATH_FROM_PROJECT (e.g. `../../../media/folder/`)
+- BASE_PATH (e.g. `/media/folder/`)
+- BASE_URL (e.g. `http://localhost:2000`)
 
 ## Usage
 
