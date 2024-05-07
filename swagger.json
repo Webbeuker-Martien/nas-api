@@ -1,0 +1,238 @@
+{
+    "swagger": "1.0",
+    "info": {
+        "title": "nas-api",
+        "version": "1.0"
+    },
+    "schemes": [
+        "http"
+    ],
+    "consumes": [
+        "application/json"
+    ],
+    "produces": [
+        "application/json",
+        "files"
+    ],
+    "paths": {
+        "/from-dir/{path.to.dir}": {
+            "get": {
+                "queries": {
+                    "deepest": {
+                        "type": "boolean",
+                        "defaultValue": true
+                    }
+                },
+                "summary": "GET /from-dir/:path.to.dir",
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/featureListFeaturesResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/download/*": {
+            "get": {
+                "queries": {
+                    "trailingSlash": {
+                        "type": "boolean",
+                        "defaultValue": true
+                    }
+                },
+                "summary": "GET /download/:{path/to/file}",
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/featureListFeaturesResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/stop-server": {
+            "get": {
+                "summary": "GET /stop-server",
+                "responses": {
+                    "200": {
+                        "description": "",
+                        "schema": {
+                            "$ref": "#/definitions/featureListFeaturesResponse"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "featureFeature": {
+            "type": "object",
+            "properties": {
+                "app_id": {
+                    "type": "string",
+                    "format": "string"
+                },
+                "args": {
+                    "type": "array",
+                    "items": {
+                        "type": "string",
+                        "format": "string"
+                    }
+                },
+                "enabled": {
+                    "type": "boolean",
+                    "format": "boolean"
+                },
+                "extra_data": {
+                    "$ref": "#/definitions/protobufStruct",
+                    "title": "extra data can be any json data\nFor parnter(特权专区) feature it shold be\nrepeated PartnerExtra extra_data = 10"
+                },
+                "method": {
+                    "$ref": "#/definitions/featureFeatureFetchMethod"
+                },
+                "requirements": {
+                    "type": "array",
+                    "items": {
+                        "type": "string",
+                        "format": "string"
+                    }
+                },
+                "type": {
+                    "$ref": "#/definitions/featureFeatureType"
+                },
+                "updated_at": {
+                    "type": "string",
+                    "format": "date-time"
+                },
+                "uuid": {
+                    "type": "string",
+                    "format": "string"
+                }
+            }
+        },
+        "featureFeatureFetchMethod": {
+            "type": "string",
+            "enum": [
+                "UNKNOWN_METHOD",
+                "GET"
+            ],
+            "default": "UNKNOWN_METHOD"
+        },
+        "featureFeatureType": {
+            "type": "string",
+            "enum": [
+                "UNKNOWN_FEATURE_TYPE",
+                "URL"
+            ],
+            "default": "UNKNOWN_FEATURE_TYPE"
+        },
+        "featureListFeaturesRequest": {
+            "type": "object"
+        },
+        "featureListFeaturesResponse": {
+            "type": "object",
+            "properties": {
+                "features": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/featureFeature"
+                    }
+                }
+            }
+        },
+        "featureUpdateFeatureRequest": {
+            "type": "object",
+            "properties": {
+                "extra_data": {
+                    "$ref": "#/definitions/protobufStruct"
+                },
+                "token": {
+                    "type": "string",
+                    "format": "string"
+                },
+                "uuid": {
+                    "type": "string",
+                    "format": "string"
+                }
+            }
+        },
+        "featureUpdateFeatureResponse": {
+            "type": "object",
+            "properties": {
+                "feature": {
+                    "$ref": "#/definitions/featureFeature"
+                }
+            }
+        },
+        "protobufListValue": {
+            "type": "object",
+            "properties": {
+                "values": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/protobufValue"
+                    },
+                    "description": "Repeated field of dynamically typed values."
+                }
+            },
+            "description": "`ListValue` is a wrapper around a repeated field of values.\n\nThe JSON representation for `ListValue` is JSON array."
+        },
+        "protobufNullValue": {
+            "type": "string",
+            "enum": [
+                "NULL_VALUE"
+            ],
+            "default": "NULL_VALUE",
+            "description": "`NullValue` is a singleton enumeration to represent the null value for the\n`Value` type union.\n\n The JSON representation for `NullValue` is JSON `null`.\n\n - NULL_VALUE: Null value."
+        },
+        "protobufStruct": {
+            "type": "object",
+            "properties": {
+                "fields": {
+                    "type": "object",
+                    "additionalProperties": {
+                        "$ref": "#/definitions/protobufValue"
+                    },
+                    "description": "Unordered map of dynamically typed values."
+                }
+            },
+            "description": "`Struct` represents a structured data value, consisting of fields\nwhich map to dynamically typed values. In some languages, `Struct`\nmight be supported by a native representation. For example, in\nscripting languages like JS a struct is represented as an\nobject. The details of that representation are described together\nwith the proto support for the language.\n\nThe JSON representation for `Struct` is JSON object."
+        },
+        "protobufValue": {
+            "type": "object",
+            "properties": {
+                "bool_value": {
+                    "type": "boolean",
+                    "format": "boolean",
+                    "description": "Represents a boolean value."
+                },
+                "list_value": {
+                    "$ref": "#/definitions/protobufListValue",
+                    "description": "Represents a repeated `Value`."
+                },
+                "null_value": {
+                    "$ref": "#/definitions/protobufNullValue",
+                    "description": "Represents a null value."
+                },
+                "number_value": {
+                    "type": "number",
+                    "format": "double",
+                    "description": "Represents a double value."
+                },
+                "string_value": {
+                    "type": "string",
+                    "format": "string",
+                    "description": "Represents a string value."
+                },
+                "struct_value": {
+                    "$ref": "#/definitions/protobufStruct",
+                    "description": "Represents a structured value."
+                }
+            },
+            "description": "`Value` represents a dynamically typed value which can be either\nnull, a number, a string, a boolean, a recursive struct value, or a\nlist of values. A producer of value is expected to set one of that\nvariants, absence of any variant indicates an error.\n\nThe JSON representation for `Value` is JSON value."
+        }
+    }
+}
