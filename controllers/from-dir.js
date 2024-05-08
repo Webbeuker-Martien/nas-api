@@ -1,6 +1,6 @@
 import { getAllChildren, getChildren } from '../functions.js';
 
-const ENV = process.env;
+import { ENV } from '../index.js';
 
 export const getAll = async (req, res) => {
 	const deepest = req.query.deepest;

@@ -1,7 +1,7 @@
 import fs from 'fs/promises';
 import path from 'path';
 
-const ENV = process.env;
+import { ENV } from './index.js';
 
 export const getAllChildren = async (basePath) => {
     let data = [];

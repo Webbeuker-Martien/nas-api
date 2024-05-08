@@ -1,13 +1,16 @@
 import express from 'express';
 const app = express();
 import fs from 'fs/promises';
+import cors from 'cors';
 
 import dotenv from 'dotenv';
 dotenv.config();
 
 import fromDirRoutes from './routes/from-dir.js';
 
-const ENV = process.env;
+export const ENV = process.env;
+
+app.use(cors());
 
 app.use(express.static(ENV.BASE_PATH_FROM_PROJECT));
 app.use('/media', express.static(ENV.BASE_PATH_FROM_PROJECT));
