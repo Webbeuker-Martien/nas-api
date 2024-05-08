@@ -30,6 +30,7 @@ Create a .env file with the following properties:
 View media based on a specified pathname
 
 `GET {BASE_URL}/path/to/file` or `GET {BASE_URL}/media/path/to/file`
+
 *e.g. http://localhost:2000/folder/file.txt or http://localhost:2000/media/folder/file.txt*
 
 ### Download media
@@ -37,6 +38,7 @@ View media based on a specified pathname
 Download media based on a specified pathname
 
 `GET {BASE_URL}/download/{BASE_PATH}/path/to/file`
+
 *e.g. http://localhost:2000/download/NAS/folder/file.txt*
 
 ### Get folder contents
@@ -44,6 +46,7 @@ Download media based on a specified pathname
 Get all children based on a specified folder/pathname
 
 `GET {BASE_URL}/from-dir/path/to/dir` or `GET {BASE_URL}/from-dir/path.to.dir`
+
 *e.g. http://localhost:2000/from-dir/folder/sub-folder or http://localhost:2000/from-dir/folder.sub-folder*
 
 ## Contributing
