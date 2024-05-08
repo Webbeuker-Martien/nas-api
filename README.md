@@ -31,6 +31,12 @@ View media based on a specified pathname
 
 `GET {BASE_URL}/path/to/file` or `GET {BASE_URL}/media/path/to/file`
 
+### Get folder contents
+
+Get all children based on a specified folder/pathname
+
+`GET {BASE_URL}/from-dir/path/to/dir` or `GET {BASE_URL}/from-dir/path.to.dir`
+
 ## Contributing
 
 Pull requests are welcome. For major changes, please open an issue first

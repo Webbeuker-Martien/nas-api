@@ -1,2 +1,5 @@
 - Log every call to an endpoint (with user data like ipaddr, hostname, etc.)
-- Change endpoint "/from-dir/path.to.dir" to "/path/to/dir" or "/from-dir/path/to/dir"
+
+
+Eventually maybe file manager using "tags"
+	- maybe json files for each image/video containing a location, file info & activity log (like changing the location)
