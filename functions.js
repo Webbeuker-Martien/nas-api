@@ -68,7 +68,6 @@ export const getChildren = async (basePath, includeDirs = false) => {
                             type: 'folder',
                             relativePath: path.join(basePath.replace(ENV.BASE_PATH, '/'), file.name),
                             absolutePath: path.join(basePath, file.name),
-                            assetPath: path.join(basePath.replace(ENV.BASE_PATH, ''), file.name),
                             children: children.length
                         });
                     }
