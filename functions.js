@@ -11,12 +11,16 @@ export const getAllChildren = async (basePath) => {
             const files = await fs.readdir(basePath, { withFileTypes: true });
 
             for (const file of files) {
+                delete file.path;
+
                 if (file.isFile()) {
                     file.type = 'file';
                     file.ext = '.' + file.name.split('.').pop();
                     file.mime = getMimeType(file.ext);
-                    file.path = path.join(basePath, file.name);
+                    file.relativePath = path.join(basePath.replace(ENV.BASE_PATH, '/'), file.name);
+                    file.absolutePath = path.join(basePath, file.name);
                     file.assetPath = path.join(basePath.replace(ENV.BASE_PATH, ENV.BASE_URL + '/'), file.name);
+                    file.downloadPath = path.join(ENV.BASE_URL, 'download', basePath, file.name);
 
                     data.push(file);
                 } else if (file.isDirectory()) {
@@ -43,21 +47,27 @@ export const getChildren = async (basePath, includeDirs = false) => {
             const files = await fs.readdir(basePath, { withFileTypes: true });
 
             for (const file of files) {
+                delete file.path;
+
                 if (file.isFile()) {
                     file.type = 'file';
                     file.ext = '.' + file.name.split('.').pop();
                     file.mime = getMimeType(file.ext);
-                    file.path = path.join(basePath, file.name);
+                    file.relativePath = path.join(basePath.replace(ENV.BASE_PATH, '/'), file.name);
+                    file.absolutePath = path.join(basePath, file.name);
                     file.assetPath = path.join(basePath.replace(ENV.BASE_PATH, ENV.BASE_URL + '/'), file.name);
+                    file.downloadPath = path.join(ENV.BASE_URL, 'download', basePath, file.name);
 
                     data.push(file);
                 } else if (file.isDirectory()) {
                     if (includeDirs) {
                         const children = await fs.readdir(path.join(basePath, file.name), { withFileTypes: true });
+
                         data.push({
                             ...file,
                             type: 'folder',
-                            path: path.join(basePath, file.name),
+                            relativePath: path.join(basePath.replace(ENV.BASE_PATH, '/'), file.name),
+                            absolutePath: path.join(basePath, file.name),
                             assetPath: path.join(basePath.replace(ENV.BASE_PATH, ''), file.name),
                             children: children.length
                         });
