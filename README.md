@@ -31,6 +31,12 @@ View media based on a specified pathname
 
 `GET {BASE_URL}/path/to/file` or `GET {BASE_URL}/media/path/to/file`
 
+### Download media
+
+Download media based on a specified pathname
+
+`GET {BASE_URL}/download/{BASE_PATH}/path/to/file`
+
 ### Get folder contents
 
 Get all children based on a specified folder/pathname

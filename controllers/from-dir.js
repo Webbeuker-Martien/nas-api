@@ -21,11 +21,11 @@ export const getAll = async (req, res) => {
 			body: data
 		});
 	} catch (err) {
-		console.error('Error', err);
+		console.error('Error: ', err);
 
 		return res.status(500).json({
 			success: false,
-			message: "Internal server error"
+			message: 'Internal server error'
 		});
 	}
 };
@@ -58,7 +58,7 @@ export const get = async (req, res, next, withSlashes = false) => {
 			body: data
 		});
 	} catch (err) {
-		console.error('Error', err);
+		console.error('Error: ', err);
 
 		if (err.code === '') {
 			return res.status(404).json({
@@ -94,7 +94,7 @@ export const getWithSlashes = async (req, res) => {
 			body: data
 		});
 	} catch (err) {
-		console.error('Error', err);
+		console.error('Error: ', err);
 
 		if (err.code === '') {
 			return res.status(404).json({
