@@ -45,9 +45,9 @@ Download media based on a specified pathname
 
 Get all children based on a specified folder/pathname
 
-`GET {BASE_URL}/from-dir/path/to/dir` or `GET {BASE_URL}/from-dir/path.to.dir`
+`GET {BASE_URL}/dir/path/to/dir` or `GET {BASE_URL}/dir/path.to.dir`
 
-*e.g. http://localhost:2000/from-dir/folder/sub-folder or http://localhost:2000/from-dir/folder.sub-folder*
+*e.g. http://localhost:2000/dir/folder/sub-folder or http://localhost:2000/dir/folder.sub-folder*
 
 ## Contributing
 

@@ -15,7 +15,7 @@
         "files"
     ],
     "paths": {
-        "/from-dir/{path.to.dir}": {
+        "/dir/{path.to.dir || path/to/dir}": {
             "get": {
                 "queries": {
                     "deepest": {
@@ -23,7 +23,7 @@
                         "defaultValue": true
                     }
                 },
-                "summary": "GET /from-dir/:path.to.dir",
+                "summary": "GET /dir/:path/to/dir || GET /dir/:path.to.dir",
                 "responses": {
                     "200": {
                         "description": "",

@@ -60,10 +60,15 @@ export const get = async (req, res, next, withSlashes = false) => {
 	} catch (err) {
 		console.error('Error: ', err);
 
-		if (err.code === '') {
+		if (err.code === 'ENOENT') {
 			return res.status(404).json({
 				success: false,
 				message: 'Directory not found'
+			});
+		} else if (err.code === 'ENOTDIR') {
+			return res.status(400).json({
+				success: false,
+				message: 'Not a directory'
 			});
 		} else {
 			return res.status(500).json({
