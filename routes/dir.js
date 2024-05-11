@@ -6,8 +6,7 @@ import fileUpload from 'express-fileupload';
 import dir from '../controllers/dir.js';
 
 router.get('/', dir.getAll);
-router.get('/:dir', dir.get);
-router.get('/*', (req, res, next) => dir.get(req, res, next, true));
+router.get('/*', dir.get);
 
 // Upload file
 router.post('/*',

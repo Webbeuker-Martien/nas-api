@@ -31,19 +31,13 @@ export const getAll = async (req, res) => {
 	}
 };
 
-export const get = async (req, res, next, withSlashes = false) => {
-	let dir = req.params.dir;
-	if (withSlashes === true) {
-		dir = req.params[0];
-	}
+export const get = async (req, res) => {
+	let dir = req.params[0];
 
 	const deepest = req.query.deepest;
 
 	try {
 		let basePath = ENV.BASE_PATH + dir;
-		if (withSlashes === false) {
-			basePath = ENV.BASE_PATH + dir.replaceAll('.', '/');
-		}
 
 		let data = [];
 
