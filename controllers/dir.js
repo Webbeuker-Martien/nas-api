@@ -303,8 +303,6 @@ export const deleteFileOrDir = async (req, res, next, withSlashes = false) => {
 		dir = req.params[0];
 	}
 
-	let fileName = req.query.fileName;
-
 	try {
 		let basePath = ENV.BASE_PATH + dir;
 		if (withSlashes === false) {
@@ -313,7 +311,7 @@ export const deleteFileOrDir = async (req, res, next, withSlashes = false) => {
 
 		let exists = null;
 		let response = null;
-		if (!fileName) {
+		try {
 			exists = await fs.stat(basePath);
 			response = await fs.rmdir(basePath, {
 				recursive: true, 
@@ -323,13 +321,21 @@ export const deleteFileOrDir = async (req, res, next, withSlashes = false) => {
 				success: true,
 				message: 'Directory deleted succesfully'
 			});
-		} else {
-			exists = await fs.stat(path.join(basePath, fileName));
-			response = await fs.unlink(path.join(basePath, fileName));
+		} catch (err) {
+			if (err.code === 'ENOTDIR') {
+				exists = await fs.stat(basePath);
+				response = await fs.unlink(basePath);
+	
+				return res.status(200).json({
+					success: true,
+					message: 'File deleted succesfully'
+				});
+			}
 
-			return res.status(200).json({
-				success: true,
-				message: 'File deleted succesfully'
+			console.error(err);
+			return res.status(500).json({
+				success: false,
+				message: 'Internal server error'
 			});
 		}
 	} catch (err) {
