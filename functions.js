@@ -19,7 +19,10 @@ export const getAllChildren = async (basePath) => {
                     file.mime = getMimeType(file.ext);
                     file.relativePath = path.join(basePath.replace(ENV.BASE_PATH, '/'), file.name);
                     file.absolutePath = path.join(basePath, file.name);
-                    file.assetPath = path.join(basePath.replace(ENV.BASE_PATH, ENV.BASE_URL + '/'), file.name);
+                    file.assetPaths = [
+                        path.join(basePath.replace(ENV.BASE_PATH, ENV.BASE_URL + '/'), file.name),
+                        path.join(basePath.replace(ENV.BASE_PATH, ENV.BASE_URL + '/view/'), file.name)
+                    ];
                     file.downloadPath = path.join(ENV.BASE_URL, 'download', basePath, file.name);
 
                     data.push(file);
@@ -55,7 +58,10 @@ export const getChildren = async (basePath, includeDirs = false) => {
                     file.mime = getMimeType(file.ext);
                     file.relativePath = path.join(basePath.replace(ENV.BASE_PATH, '/'), file.name);
                     file.absolutePath = path.join(basePath, file.name);
-                    file.assetPath = path.join(basePath.replace(ENV.BASE_PATH, ENV.BASE_URL + '/'), file.name);
+                    file.assetPaths = [
+                        path.join(basePath.replace(ENV.BASE_PATH, ENV.BASE_URL + '/'), file.name),
+                        path.join(basePath.replace(ENV.BASE_PATH, ENV.BASE_URL + '/view/'), file.name)
+                    ];
                     file.downloadPath = path.join(ENV.BASE_URL, 'download', basePath, file.name);
 
                     data.push(file);

@@ -247,16 +247,16 @@ export const moveOrCopy = async (req, res, next, action) => {
 							});
 						}
 					} else {
-						return res.status(400).json({
+						return res.status(404).json({
 							success: false,
-							message: 'File doesn\'t exist'
+							message: 'File not found'
 						})
 					}
 				} catch (err) {
 					console.error(err);
 
 					if (err.code === 'ENOENT') {
-						return res.status(400).json({
+						return res.status(404).json({
 							success: false,
 							message: 'No such file or directory'
 						});
@@ -324,6 +324,11 @@ export const deleteFileOrDir = async (req, res, next, withSlashes = false) => {
 					success: true,
 					message: 'File deleted succesfully'
 				});
+			} else if (err.code === 'ENOENT') {
+				return res.status(404).json({
+					success: false,
+					message: 'No such file or directory'
+				});
 			}
 
 			console.error(err);
@@ -336,7 +341,7 @@ export const deleteFileOrDir = async (req, res, next, withSlashes = false) => {
 		console.error(err);
 
 		if (err.code === 'ENOENT') {
-			return res.status(400).json({
+			return res.status(404).json({
 				success: false,
 				message: 'No such file or directory'
 			});
