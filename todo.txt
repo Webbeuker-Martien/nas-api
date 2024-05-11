@@ -1,5 +1,5 @@
 - Log every call to an endpoint (with user data like ipaddr, hostname, etc.)
-- Upload endpoints to upload files to the HDD
+- Delete files
 
 
 
