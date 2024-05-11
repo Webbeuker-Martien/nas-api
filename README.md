@@ -29,9 +29,9 @@ Create a .env file with the following properties:
 
 View media based on a specified pathname
 
-`GET {BASE_URL}/path/to/file` or `GET {BASE_URL}/media/path/to/file`
+`GET {BASE_URL}/path/to/file` or `GET {BASE_URL}/view/path/to/file`
 
-*e.g. http://localhost:2000/folder/file.txt or http://localhost:2000/media/folder/file.txt*
+*e.g. http://localhost:2000/folder/file.txt or http://localhost:2000/view/folder/file.txt*
 
 ### Download media
 

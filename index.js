@@ -13,7 +13,7 @@ export const ENV = process.env;
 app.use(cors());
 
 app.use(express.static(ENV.BASE_PATH_FROM_PROJECT));
-app.use('/media', express.static(ENV.BASE_PATH_FROM_PROJECT));
+app.use('/view', express.static(ENV.BASE_PATH_FROM_PROJECT));
 
 app.use('/dir', dirRoutes);
 app.use('/download', downloadRoutes);

@@ -1,6 +1,8 @@
 - Log every call to an endpoint (with user data like ipaddr, hostname, etc.)
 - Create directory
 
+- Maybe remove all 'path.to.dir' endpoints (don't like it...)
+
 
 Eventually maybe file manager using "tags"
 	- maybe json files for each image/video containing a location, file info & activity log (like changing the location)
