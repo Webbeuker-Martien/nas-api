@@ -92,15 +92,6 @@ export const post = async (req, res, next, withSlashes = false) => {
 			basePath = ENV.BASE_PATH + dir.replaceAll('.', '/');
 		}
 
-		// const directory = await fs.stat(basePath, { withFileTypes: true });
-
-		// if (!directory.isDirectory()) {
-		// 	return res.status(400).json({
-		// 		success: false,
-		// 		message: 'Not a directory'
-		// 	});
-		// }
-
 		// File upload
 		if (!req.files) {
 			return res.status(400).json({
@@ -306,9 +297,62 @@ export const moveOrCopy = async (req, res, next, action) => {
 	}
 };
 
+export const deleteFileOrDir = async (req, res, next, withSlashes = false) => {
+	let dir = req.params.dir;
+	if (withSlashes === true) {
+		dir = req.params[0];
+	}
+
+	let fileName = req.query.fileName;
+
+	try {
+		let basePath = ENV.BASE_PATH + dir;
+		if (withSlashes === false) {
+			basePath = ENV.BASE_PATH + dir.replaceAll('.', '/');
+		}
+
+		let exists = null;
+		let response = null;
+		if (!fileName) {
+			exists = await fs.stat(basePath);
+			response = await fs.rmdir(basePath, {
+				recursive: true, 
+			});
+
+			return res.status(200).json({
+				success: true,
+				message: 'Directory deleted succesfully'
+			});
+		} else {
+			exists = await fs.stat(path.join(basePath, fileName));
+			response = await fs.unlink(path.join(basePath, fileName));
+
+			return res.status(200).json({
+				success: true,
+				message: 'File deleted succesfully'
+			});
+		}
+	} catch (err) {
+		console.error(err);
+
+		if (err.code === 'ENOENT') {
+			return res.status(400).json({
+				success: false,
+				message: 'No such file or directory'
+			});
+		}
+
+		return res.status(500).json({
+			success: false,
+			message: 'Internal server error'
+		});
+	}
+};
+
 export default {
 	getAll,
 	get,
 	post,
-	moveOrCopy
+	moveOrCopy,
+	deleteFileOrDir
 };

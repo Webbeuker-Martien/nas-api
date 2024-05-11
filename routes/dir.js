@@ -26,4 +26,9 @@ router.put('/copy/*',
     (req, res, next) => dir.moveOrCopy(req, res, next, 'copy')
 );
 
+router.delete('/:dir', dir.deleteFileOrDir);
+router.delete('/*',
+    (req, res, next) => dir.deleteFileOrDir(req, res, next, true)
+);
+
 export default router;
