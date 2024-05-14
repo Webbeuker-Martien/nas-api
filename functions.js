@@ -20,10 +20,10 @@ export const getAllChildren = async (basePath) => {
                     file.relativePath = encodeURI(path.join(basePath.replace(ENV.BASE_PATH, '/'), file.name)).replaceAll('#', '%23');
                     file.absolutePath = encodeURI(path.join(basePath, file.name)).replaceAll('#', '%23');
                     file.assetPaths = [
-                        basePath.replace(ENV.BASE_PATH, ENV.BASE_URL + '/') + '/' + file.name,
-                        basePath.replace(ENV.BASE_PATH, ENV.BASE_URL + '/view/') + '/' + file.name
+                        encodeURI(basePath.replace(ENV.BASE_PATH, ENV.BASE_URL + '/') + '/' + file.name).replaceAll('#', '%23'),
+                        encodeURI(basePath.replace(ENV.BASE_PATH, ENV.BASE_URL + '/view/') + '/' + file.name).replaceAll('#', '%23')
                     ];
-                    file.downloadPath = ENV.BASE_URL + '/' + path.join('download', basePath, file.name);
+                    file.downloadPath = encodeURI(ENV.BASE_URL + '/' + path.join('download', basePath, file.name)).replaceAll('#', '%23');
 
                     data.push(file);
                 } else if (file.isDirectory()) {
@@ -59,10 +59,10 @@ export const getChildren = async (basePath, includeDirs = false) => {
                     file.relativePath = encodeURI(path.join(basePath.replace(ENV.BASE_PATH, '/'), file.name)).replaceAll('#', '%23');
                     file.absolutePath = encodeURI(path.join(basePath, file.name)).replaceAll('#', '%23');
                     file.assetPaths = [
-                        basePath.replace(ENV.BASE_PATH, ENV.BASE_URL + '/') + '/' + file.name,
-                        basePath.replace(ENV.BASE_PATH, ENV.BASE_URL + '/view/') + '/' + file.name
+                        encodeURI(basePath.replace(ENV.BASE_PATH, ENV.BASE_URL + '/') + '/' + file.name).replaceAll('#', '%23'),
+                        encodeURI(basePath.replace(ENV.BASE_PATH, ENV.BASE_URL + '/view/') + '/' + file.name).replaceAll('#', '%23')
                     ];
-                    file.downloadPath = ENV.BASE_URL + '/' + path.join('download', basePath, file.name);
+                    file.downloadPath = encodeURI(ENV.BASE_URL + '/' + path.join('download', basePath, file.name)).replaceAll('#', '%23');
 
                     data.push(file);
                 } else if (file.isDirectory()) {
