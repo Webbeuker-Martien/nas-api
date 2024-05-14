@@ -17,8 +17,8 @@ export const getAllChildren = async (basePath) => {
                     file.type = 'file';
                     file.ext = '.' + file.name.split('.').pop();
                     file.mime = getMimeType(file.ext);
-                    file.relativePath = path.join(basePath.replace(ENV.BASE_PATH, '/'), file.name);
-                    file.absolutePath = path.join(basePath, file.name);
+                    file.relativePath = encodeURI(path.join(basePath.replace(ENV.BASE_PATH, '/'), file.name)).replaceAll('#', '%23');
+                    file.absolutePath = encodeURI(path.join(basePath, file.name)).replaceAll('#', '%23');
                     file.assetPaths = [
                         basePath.replace(ENV.BASE_PATH, ENV.BASE_URL + '/') + '/' + file.name,
                         basePath.replace(ENV.BASE_PATH, ENV.BASE_URL + '/view/') + '/' + file.name
@@ -56,8 +56,8 @@ export const getChildren = async (basePath, includeDirs = false) => {
                     file.type = 'file';
                     file.ext = '.' + file.name.split('.').pop();
                     file.mime = getMimeType(file.ext);
-                    file.relativePath = path.join(basePath.replace(ENV.BASE_PATH, '/'), file.name);
-                    file.absolutePath = path.join(basePath, file.name);
+                    file.relativePath = encodeURI(path.join(basePath.replace(ENV.BASE_PATH, '/'), file.name)).replaceAll('#', '%23');
+                    file.absolutePath = encodeURI(path.join(basePath, file.name)).replaceAll('#', '%23');
                     file.assetPaths = [
                         basePath.replace(ENV.BASE_PATH, ENV.BASE_URL + '/') + '/' + file.name,
                         basePath.replace(ENV.BASE_PATH, ENV.BASE_URL + '/view/') + '/' + file.name
@@ -72,8 +72,8 @@ export const getChildren = async (basePath, includeDirs = false) => {
                         data.push({
                             ...file,
                             type: 'folder',
-                            relativePath: path.join(basePath.replace(ENV.BASE_PATH, '/'), file.name),
-                            absolutePath: path.join(basePath, file.name),
+                            relativePath: encodeURI(path.join(basePath.replace(ENV.BASE_PATH, '/'), file.name)).replaceAll('#', '%23'),
+                            absolutePath: encodeURI(path.join(basePath, file.name)).replaceAll('#', '%23'),
                             children: children.length
                         });
                     }
