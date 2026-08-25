@@ -1,22 +1,31 @@
+import { ENV } from './env.js';
+
 import express from 'express';
 const app = express();
 import cors from 'cors';
+import cookieParser from 'cookie-parser';
 
-import dotenv from 'dotenv';
-dotenv.config();
-
+import { requireAuth } from './middleware/auth.js';
+import authRoutes from './routes/auth.js';
 import dirRoutes from './routes/dir.js';
 import downloadRoutes from './routes/download.js';
+import thumbRoutes from './routes/thumb.js';
 
-export const ENV = process.env;
+app.use(cors({
+	origin: ENV.FRONTEND_ORIGIN,
+	credentials: true
+}));
+app.use(cookieParser());
+app.use(express.json());
 
-app.use(cors());
+app.use('/auth', authRoutes);
 
-app.use(express.static(ENV.BASE_PATH_FROM_PROJECT));
-app.use('/view', express.static(ENV.BASE_PATH_FROM_PROJECT));
+app.use(requireAuth, express.static(ENV.BASE_PATH_FROM_PROJECT));
+app.use('/view', requireAuth, express.static(ENV.BASE_PATH_FROM_PROJECT));
 
 app.use('/dir', dirRoutes);
 app.use('/download', downloadRoutes);
+app.use('/thumb', thumbRoutes);
 
 const server = app.listen(2000, () => {
 	console.log(`Server running at ${ENV.BASE_URL}...`);

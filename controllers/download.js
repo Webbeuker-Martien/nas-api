@@ -1,48 +1,41 @@
-import fs from 'fs/promises';
+import path from 'path';
+
+import { ENV } from '../env.js';
 
 export const getAll = async (req, res) => {
-    let path = req.params[0];
-    const trailingSlash = req.query.trailingSlash;
+    const relativePath = req.params[0];
 
-    if (path == '') return res.status(404).json({
-        success: false,
-        message: 'File not found'
-    });
-
-    if (trailingSlash === false || trailingSlash === 'false') {
-        path = path;
-    } else {
-        path = '/' + path;
+    if (!relativePath) {
+        return res.status(404).json({
+            success: false,
+            message: 'File not found'
+        });
     }
 
-    try {
-        fs.readFile(path).then((file) => {
-            return res.status(200).send(file);
-        }).catch((err) => {
-            console.error('Error: ', err);
+    const absolutePath = path.join(ENV.BASE_PATH, relativePath);
+    const filename = path.basename(absolutePath);
 
-            if (err.code === 'EISDIR') {
-                return res.status(400).json({
-                    success: false,
-                    message: 'Specified path is a directory'
-                });
-            } else {
-                return res.status(404).json({
-                    success: false,
-                    message: 'File not found'
-                });
-            }
-        });
-    } catch (err) {
+    res.download(absolutePath, filename, (err) => {
+        if (!err) return;
+
         console.error('Error: ', err);
+
+        if (res.headersSent) return;
+
+        if (err.code === 'ENOENT') {
+            return res.status(404).json({
+                success: false,
+                message: 'File not found'
+            });
+        }
 
         return res.status(500).json({
             success: false,
             message: 'Internal server error'
         });
-    }
+    });
 };
 
 export default {
-	getAll
+    getAll
 };

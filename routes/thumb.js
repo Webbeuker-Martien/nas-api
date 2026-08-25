@@ -2,9 +2,9 @@ import express from 'express';
 
 const router = express.Router();
 
-import download from '../controllers/download.js';
+import thumb from '../controllers/thumb.js';
 import { requireAuth } from '../middleware/auth.js';
 
-router.get('/*', requireAuth, download.getAll);
+router.get('/*', requireAuth, thumb.get);
 
 export default router;

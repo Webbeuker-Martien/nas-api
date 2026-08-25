@@ -1,20 +1,42 @@
 import fs from 'fs/promises';
 import { getAllChildren, getChildren } from '../functions.js';
-import { ENV } from '../index.js';
+import { listPage } from '../services/listing.js';
+import { ENV } from '../env.js';
 import path from 'path';
+
+const parsePageParams = (query) => {
+	const offset = Number.parseInt(query.offset, 10);
+	const limit = Number.parseInt(query.limit, 10);
+	const order = query.order === 'desc' ? 'desc' : 'asc';
+
+	return {
+		offset: Number.isFinite(offset) && offset >= 0 ? offset : 0,
+		limit: Number.isFinite(limit) && limit > 0 ? Math.min(limit, 1000) : 200,
+		order
+	};
+};
 
 export const getAll = async (req, res) => {
 	const deepest = req.query.deepest;
 
 	try {
 		let basePath = ENV.BASE_PATH;
-		let data = [];
 
 		if (deepest === false || deepest === 'false') {
-			data = await getChildren(basePath, true);
-		} else {
-			data = await getAllChildren(basePath);
+			const page = await listPage(basePath, parsePageParams(req.query));
+
+			return res.status(200).json({
+				success: true,
+				count: page.body.length,
+				total: page.total,
+				offset: page.offset,
+				limit: page.limit,
+				hasMore: page.hasMore,
+				body: page.body
+			});
 		}
+
+		const data = await getAllChildren(basePath);
 
 		res.status(200).json({
 			success: true,
@@ -37,15 +59,23 @@ export const get = async (req, res) => {
 	const deepest = req.query.deepest;
 
 	try {
-		let basePath = ENV.BASE_PATH + dir;
-
-		let data = [];
+		let basePath = path.join(ENV.BASE_PATH, dir);
 
 		if (deepest === false || deepest === 'false') {
-			data = await getChildren(basePath, true);
-		} else {
-			data = await getAllChildren(basePath);
+			const page = await listPage(basePath, parsePageParams(req.query));
+
+			return res.status(200).json({
+				success: true,
+				count: page.body.length,
+				total: page.total,
+				offset: page.offset,
+				limit: page.limit,
+				hasMore: page.hasMore,
+				body: page.body
+			});
 		}
+
+		const data = await getAllChildren(basePath);
 
 		res.status(200).json({
 			success: true,
@@ -81,9 +111,9 @@ export const post = async (req, res, next, withSlashes = false) => {
 	}
 
 	try {
-		let basePath = ENV.BASE_PATH + dir;
+		let basePath = path.join(ENV.BASE_PATH, dir);
 		if (withSlashes === false) {
-			basePath = ENV.BASE_PATH + dir.replaceAll('.', '/');
+			basePath = path.join(ENV.BASE_PATH, dir.replaceAll('.', '/'));
 		}
 
 		// File upload
@@ -112,7 +142,7 @@ export const post = async (req, res, next, withSlashes = false) => {
 				} catch (err) {
 					if (err.code === 'ENOENT') {
 						// Add file
-						file.mv(basePath + '/' + file.name, (err) => {
+						file.mv(path.join(basePath, file.name), (err) => {
 							if (err) {
 								console.error(err);
 
@@ -171,7 +201,7 @@ export const moveOrCopy = async (req, res, next, action) => {
 	}
 
 	try {
-		let basePath = ENV.BASE_PATH + dir;
+		let basePath = path.join(ENV.BASE_PATH, dir);
 
 		if (dest) {
 			dest = path.join(ENV.BASE_PATH, dest);
@@ -298,9 +328,9 @@ export const deleteFileOrDir = async (req, res, next, withSlashes = false) => {
 	}
 
 	try {
-		let basePath = ENV.BASE_PATH + dir;
+		let basePath = path.join(ENV.BASE_PATH, dir);
 		if (withSlashes === false) {
-			basePath = ENV.BASE_PATH + dir.replaceAll('.', '/');
+			basePath = path.join(ENV.BASE_PATH, dir.replaceAll('.', '/'));
 		}
 
 		let exists = null;
