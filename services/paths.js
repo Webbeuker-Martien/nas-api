@@ -18,7 +18,7 @@ export const resolveSafe = (relativePath) => {
     // (base + sep = "D:\\\\") and every real path would wrongly fail the startsWith check below.
     const baseWithSep = base.endsWith(path.sep) ? base : base + path.sep;
 
-    const cleaned = String(relativePath).replace(/^[/\\]+/, '');
+    const cleaned = decodeURIComponent(String(relativePath)).replace(/^[/\\]+/, '');
     const resolved = path.resolve(base, cleaned);
 
     if (resolved !== base && !resolved.startsWith(baseWithSep)) {
