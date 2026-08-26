@@ -11,7 +11,7 @@ import ffmpeg from 'fluent-ffmpeg';
 if (process.env.FFMPEG_PATH) ffmpeg.setFfmpegPath(process.env.FFMPEG_PATH);
 if (process.env.FFPROBE_PATH) ffmpeg.setFfprobePath(process.env.FFPROBE_PATH);
 
-const CACHE_DIR = process.env.THUMB_CACHE_DIR || path.join(process.cwd(), 'cache', 'thumbs');
+const CACHE_DIR = path.resolve(process.env.THUMB_CACHE_DIR || path.join(process.cwd(), 'cache', 'thumbs'));
 
 const SIZES = {
     sm: 200,
